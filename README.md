@@ -14,7 +14,7 @@
     * server.httpPort(设定http协议端口号)
     * server.httpBindInterface(设定服务器IP地址)
     * server.httpsBindInterface(设定为localhost)
-    * 保存，关闭文件
+    * 保存，关闭文件<br />
   ![image](/images/config.png)
   5. 找到gitblit/gitblit.cmd文件，双击运行
   6. 运行结果如下表示搭建成功
