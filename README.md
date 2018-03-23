@@ -10,7 +10,7 @@
     * 配置完成，一路点击确定
   3. 进入cmd输入java -version，java，javac来验证是否安装成功
 ### 安装gitblit
-  1. 进入[gitblit官网](http://www.gitblit.com/)下载gitblit
+  1. 进入[gitblit官网](http://www.gitblit.com/)下载gitblit<br />
   ![image](/images/gitblit.png)
   2. 解压压缩包，这里是解压在E盘根目录(这个路径可自行修改)
   3. 在E:/gitblit-1.8.0中新建个文件夹叫code用于存储资料(配置中会用到，这个路径可自行修改)
@@ -22,9 +22,9 @@
     * 保存，关闭文件<br />
   ![image](/images/config.png)
   5. 找到gitblit/gitblit.cmd文件，双击运行
-  6. 运行结果如下表示搭建成功
+  6. 运行结果如下表示搭建成功<br />
   ![image](/images/success1.png)
-  7. 浏览器就可以直接访问gitblit了
+  7. 浏览器就可以直接访问gitblit了<br />
   ![image](/images/success2.png)
   8. 默认超级管理员账户：admin，密码：admin，登录成功之后就可以进行相关操作了
 ### 设置以windows service启动gitblit
@@ -34,11 +34,11 @@
   2. 添加CD为程序目录
     * SET CD=E:/gitblit-1.8.0（你的实际目录）
   3. 修改‘StartParams’里的启动参数为空
-  4. 保存，关闭文件
+  4. 保存，关闭文件<br />
   ![image](/images/windows-service-config.png)
   5. 找到gitblit-1.8.0/installService.cmd文件，右键以管理员身份运行
   6. 这时进入'我的电脑'=>'管理'=>'服务和应用程序'=>'服务'
     * 找到gitblit，选中（如果没有，请关闭后重新打开）
     * 选中后点击'启动'此服务
     * 等待一段时间后，浏览器就可以直接访问gitblit了<br />
-  ![image](/images/windows-service-config.png)
+  ![image](/images/windows-service.png)
