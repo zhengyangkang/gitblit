@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>gitlab安装配置</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {margin: 0px;padding: 0px;}
+            body {font-size: 14px;}
+            .box {width: 800px;margin: 0 auto;}
+            .item {margin-bottom: 15px;background-color: #eee;padding: 15px;}
+            .name {font-size: 22px;font-weight: bold;margin-bottom: 5px;}
+            .introduce {line-height: 22px;margin-left: 15px;}
+            .list {margin-bottom: 20px;}
+            .question-name {font-size: 16px;font-weight: bold;margin-bottom: 5px;border-bottom: 1px solid #999;padding: 5px 0px;}
+            .link {color: #6b59c9;text-decoration: none;}
+            .kind {display: inline-block;margin: 0px 5px;background-color: #ccc;border-radius: 5px;padding: 0 5px;font-size: 12px;}
+            .code {background-color: #000;color: #fff;padding: 10px;}
+            .notes {color: #4b8b43;display: inline-block;margin-left: 15px;}
+            .notes:before {content: '//';margin-right: 15px;}
+            .tip {background-color: #d7ab4a;color: #fff;padding: 5px 10px;border-radius: 5px;margin-bottom: 5px;}
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            <div class="item">
+                <div class="name">1.下载VMware Workstation 14.1.2</div>
+                <div class="introduce">
+                    <p>点击<a class="link" target="view_window" href="https://download.pchome.net/system/sysenhance/detail-4673.html">这里</a>下载</p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">2.下载CentOS 7.X</div>
+                <div class="introduce">
+                    <p>最好选“DVD ISO”标准安装版</p>
+                    <p>点击<a class="link" target="view_window" href="https://www.centos.org/download">这里</a>下载</p>
+                    <p>查看<a class="link" target="view_window" href="https://jingyan.baidu.com/article/1876c85279cedd890a13766c.html">教程</a></p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">3.虚拟机中安装CentOS</div>
+                <div class="introduce">
+                    <p>查看<a class="link" target="view_window" href="https://jingyan.baidu.com/article/3065b3b6a00892becef8a467.html">教程</a></p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">4.CentOS 7操作</div>
+                <div class="introduce">
+                    <div class="list">
+                        <div class="question-name">普通用户获取root权限</div>
+                        <div class="question-answer">
+                            <p>查看<a class="link" target="view_window" href="https://jingyan.baidu.com/article/49ad8bce77a0365834d8fa95.html">教程</a></p>
+                            <p>编辑文件步骤查看999</p>
+                            <div class="code">
+                                <p>su root<span class="notes">用'su'命令切换到root用户</span></p>
+                                <p>visudo<span class="notes">执行'visudo'编辑修改/etc/sudoers配置文件</span></p>
+                                <p>connor ALL=(ALL) ALL<span class="notes">在root ALL=(ALL) ALL后面插入这行代码</span></p>
+                                <p>exit<span class="notes">保存文件后执行'exit'退出root用户</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div class="question-name">联网问题</div>
+                        <div class="question-answer">
+                            <p>查看<a class="link" target="view_window" href="https://www.cnblogs.com/zhi-leaf/p/5983470.html">教程</a></p>
+                            <p class="tip">最好是在root权限下执行</p>
+                            <div class="code">
+                                <p>cd /etc/sysconfig/network-scripts/<span class="notes">进入network-scripts目录</span></p>
+                                <p>ls<span class="notes">'ls'查看当前文件夹下所有文件</span></p>
+                                <p>vi ifcfg-ens33<span class="notes">找到'ifcfg-enXXX'文件，这里不同电脑文件可能不同，执行该步骤进入编辑模式</span></p>
+                                <p>ONBOOT=yes<span class="notes">将'ONBOOT=no'改成'ONBOOT=yes'</span></p>
+                                <p>service network restart<span class="notes">重启网络服务</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">5.安装gitlab</div>
+                <div class="introduce">
+                    <p>查看<a class="link" target="view_window" href="https://about.gitlab.com/installation/#centos-7">教程</a></p>
+                    <div class="code">
+                        <p>sudo yum install -y curl policycoreutils-python openssh-server<span class="notes">安装<span class="kind">policycoreutils-python</span>,<span class="kind">openssh-server</span></span></p>
+                        <p>sudo systemctl enable sshd<span class="notes">设置开机启动ssh服务</span></p>
+                        <p>sudo systemctl start sshd<span class="notes">启动ssh服务</span></p>
+                        <p>sudo firewall-cmd --permanent --add-service=http<span class="notes">系统防火墙永久开放HTTP服务</span></p>
+                        <p>sudo systemctl reload firewalld<span class="notes">重启防火墙</span></p>
+                        <p>sudo yum install postfix<span class="notes">安装<span class="kind">postfix</span>用来发送通知邮件</span></p>
+                        <p>sudo systemctl enable postfix<span class="notes">设置postfix开机自启</span></p>
+                        <p>sudo systemctl start postfix<span class="notes">启动postfix</span></p>
+                        <p>
+                            curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
+                            <span class="notes">下载并安装gitlab</span>
+                        </p>
+                        <p>
+                            sudo EXTERNAL_URL="http://gitlab.zhengyk.win" yum install -y gitlab-ee
+                            <span class="notes">将gitlab的实例绑定到'http://gitlab.zhengyk.win'，安装将自动配置并启动该URL的GitLab</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">6.CentOS7 图形界面安装</div>
+                <div class="introduce">
+                    <p>查看<a class="link" target="view_window" href="https://jingyan.baidu.com/article/0964eca26fc3b38284f53642.html">教程</a></p>
+                    <div class="code">
+                        <p>yum groupinstall "X Window System"<span class="notes">安装X</span></p>
+                        <p>yum groupinstall "GNOME Desktop"<span class="notes">安装GNOME</span></p>
+                        <p>startx<span class="notes">执行'startx'进入图形界面</span></p>
+                        <p>reboot<span class="notes">执行'reboot'重启</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">7.安装花生壳(动态ip解析)</div>
+                <div class="introduce">
+                    <p>点击<a class="link" target="view_window" href="https://hsk.oray.com/download/">这里</a>下载</p>
+                    <p>图形界面进入CentOS浏览器打开花生壳下载地址，下载花生壳；</p>
+                    <p>在'Downloads'文件夹打开控制台；</p>
+                    <div class="code">
+                        <p>yum localinstall -y phddns-3.0.2.x86_64.rpm<span class="notes">安装刚刚下载的花生壳软件</span></p>
+                    </div>
+                    <p>安装完成后控制台会显示SN账号，默认密码，和登录的后台控制系统网址，打开浏览器登录花生壳系统，登录后会提示切换账号，切换至自己注册的花生壳账号</p>
+                    <p>点击'内网穿透'，添加映射，将花生壳免费域名绑定到gitlab的内网ip及端口</p>
+                    <p>进入阿里云域名管理添加一条解析记录指向花生壳的免费域名</p>
+                    <p>最后阿里云的域名加上花生壳内网映射开放的端口就可以访问内网gitlab了</p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">8.其他说明</div>
+                <div class="introduce">
+                    <div class="code">
+                        <p>yum install vim -y<span class="notes">安装vim编辑器</span></p>
+                        <p>vim /etc/gitlab/gitlab.rb<span class="notes">修改gitlab配置(ip,端口等,需要root权限)</span></p>
+                        <p>gitlab-ctl reconfigure<span class="notes">重新应用gitlab的配置</span></p>
+                        <p>gitlab-ctl restart<span class="notes">重启gitlab</span></p>
+                        <p>ip addr<span class="notes">查看Linux在虚拟机中的ip</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">999.编辑文件</div>
+                <div class="introduce">
+                    打开文件后按'i'进入编辑模式，编辑完成后按'esc',最后输入':wq'保存退出
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">-1.未解决的问题</div>
+                <div class="introduce">
+                    <ul>
+                        <li>新建用户后，新用户的默认密码不清楚；</li>
+                        <li>如何绑定域名;</li>
+                        <li>项目添加的成员只能是‘Maintainer’?;</li>
+                        <li>邮箱问题?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
